@@ -1,10 +1,10 @@
 # Gaiadr3 Bcg
 #
 #
-# this is an intermediary development step where we use a python wrapper
-# the next steps are : 
-#  * to use a bash script to directly call the python wrapper by giving arguments
-#  * to rewrite the main java class as a python class 
+## this is an intermediary development step where we use a python wrapper
+## the next steps are : 
+###  * to use a bash script to directly call the python wrapper by giving arguments
+###  * to rewrite the main java class as a python class 
 #
 to get the project, use the git repository : 
 https://gitlab.oca.eu/ordenovic/gaiadr3_bcg
