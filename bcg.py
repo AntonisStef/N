@@ -8,9 +8,10 @@ import numpy as np
 
 
 class BolometryTable:
-        # x is the bolometric table loaded -> pandas dataframe
-	def __init__(self,bolometry):
-	    self.__bolometry=bolometry.sort_values(by=['teff', 'logg','metal','alpha'])
+        # file is the bolometric table file -> pandas dataframe
+	def __init__(self,file):
+		table=pd.read_table(file, delim_whitespace=True, names=["teff", "logg",\ 			"metal","alpha","bc"],dtype={'teff':'float32','logg':'float32','metal':'float32','alpha':'float32','bc':'float32'})
+	    self.__bolometry=table.sort_values(by=['teff', 'logg','metal','alpha'])
 	    self.__param=self.__bolometry.values[:,0:4]
 	    self.__bc = self.__bolometry.values[5]
 	    self.__kdtree = KDTree(self.__param)
