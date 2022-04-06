@@ -29,4 +29,5 @@
 
 ## other way: running by script
 * e.g : python3 bcg.py 2555 5 -0.5 0.2
+* with the offset : python3 bcg.py 2555 5 -0.5 0.2 0.045
 
