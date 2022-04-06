@@ -3,7 +3,7 @@
 #
 #
 ## to get the project, use the git repository : 
-* https://gitlab.oca.eu/ordenovic/gaiadr3_bcg
+* git clone https://gitlab.oca.eu/ordenovic/gaiadr3_bcg
 #
 ## you will find :
 * the python class : bcg.py
