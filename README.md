@@ -24,6 +24,6 @@
 * import the python file bc.py by the command : import bcg
 * create the object by calling the constructor: bcg.BolometryTable('data/bc_dr3_feh_all.txt')
 * call the method computeBc(point <,offset>)
-    `* point is a list of 4 elements : [teff, logg, metallicity, alpha/Fe]`
-    `* offset is an optional floating value (0 by default)`
+    ** point is a list of 4 elements : [teff, logg, metallicity, alpha/Fe]
+    ** offset is an optional floating value (0 by default)
 
