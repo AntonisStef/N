@@ -31,6 +31,11 @@ class TestBcg(unittest.TestCase):
 		expected = -2.1935
 		self.assertAlmostEqual(expected, result, places=4)
 		
+	def test_interpolate2(self):
+		result = self.__bc.interpolate([4200,1,1,0.1])
+		expected = -0.5282
+		self.assertAlmostEqual(expected, result, places=4)
+		
 	def test_computeBc(self):
 		offset = 0.12
 		test=[2550.,5.0 ,-0.5  ,0.2]

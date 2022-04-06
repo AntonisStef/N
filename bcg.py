@@ -1,10 +1,34 @@
 import numpy as np
 import pandas as pd
+import sys
 from scipy.spatial import KDTree
+
+
 """
 
 """
 class BolometryTable:
+		
+	'''
+	'''
+	def main(self):
+		if len(sys.argv) < 5 or len(sys.argv) > 6:
+			print('bad number of arguments : should be teff,logg,metal,alpha (and optionally offset)')
+			exit()
+		
+		value=sys.argv[1:5]
+		param = np.zeros(len(value))
+		
+		for i in range(len(param)):
+			param[i]=float(value[i])
+		
+		if len(sys.argv)==6:
+			offset=float(sys.argv[5])
+			print(self.computeBc(param,offset))
+		else:
+			print(self.computeBc(param))
+		exit()
+    	
 	"""
 	   constructor. Take as argument the ascii table file.
 	"""
@@ -199,7 +223,10 @@ class BolometryTable:
 		for i in self.__paramkeys[axis]:
 		
 			if abs(value-i) < 1e-5:
-				return self.__paramkeys[axis][count+k]
+				try :
+					return self.__paramkeys[axis][count+k]
+				except IndexError:
+					return None
 			count=count+1
 		return None
 		
@@ -244,6 +271,10 @@ class BolometryTable:
 
 	def nextNode(self,val,axis):
 		return self.search(val,axis,1)
+		
+if __name__ == "__main__":
+	bcg = BolometryTable('data/bc_dr3_feh_all.txt')
+	bcg.main()
 			
 			
 
