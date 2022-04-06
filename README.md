@@ -27,6 +27,6 @@
 * point is a list of 4 elements : [teff, logg, metallicity, alpha/Fe]
 * offset is an optional floating value (0 by default)
 
-## other way running by script
+## other way: running by script
 * e.g : python3 bcg.py 2555 5 -0.5 0.2
 
