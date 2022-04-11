@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import sys
+import pdb
 from scipy.spatial import KDTree
 
 
@@ -61,29 +62,33 @@ class BolometryTable:
 	   find the index location of pouint g (array) by dichotomy
 	"""
 	def where(self,g):
-	    bas=0
-	    haut=len(self.__param)-1
-	
-	    while True:
-                milieu =(int)((bas+haut)/2)
-                elem = self.__param[milieu]
-                
-                if self.equals(elem,g):
-                    return milieu           		
-                elif self.compareTo(elem,g)==-1:
-               	    bas = milieu + 1        		
-                else:
-               	    haut = milieu -1       	    
-               	if bas > haut:
-               		return -1
+		bas=0
+		haut=len(self.__param)-1
+		result=-1
+		while True:
+			milieu =(int)((bas+haut)//2)
+			elem = self.__param[milieu]
+
+			if self.equals(elem,g):
+				result=milieu
+			elif self.compareTo(elem,g)==-1:
+				var='sup'
+				bas = milieu + 1
+			else:
+				var='inf'
+				haut = milieu -1
+
+			if self.equals(g,elem) or (bas > haut):
+				break
+		return result
 
 	"""
 		checks equality of 2 points
 	"""
 	def equals(self,p1,p2):
-		tol=1e-6
+		tol=1e-5
 		
-		if abs(round(p1[0]-p2[0],7))<tol and abs(round(p1[1]-p2[1],7))<tol and abs(round(p1[2]-p2[2],7))<tol and abs(round(p1[3]-p2[3],7))<tol:
+		if abs(round(p1[0]-p2[0],6))<tol and abs(round(p1[1]-p2[1],6))<tol and abs(round(p1[2]-p2[2],6))<tol and abs(round(p1[3]-p2[3],6))<tol:
 			return True
 		return False
 		
@@ -91,7 +96,7 @@ class BolometryTable:
 		define comparaison between 2 points (-1 if before, 1 after)
 	"""
 	def compareTo(self,p1,p2):
-		tol=1e-6
+		tol=1e-4
 		
 		if p1[0] > p2[0]:
 			return 1
@@ -99,20 +104,20 @@ class BolometryTable:
 		if (p1[0] < p2[0]):
 			return -1
 		
-		if abs(round(p1[0] -p2[0],7)) < tol:
+		if abs(round(p1[0] -p2[0],5)) < tol:
 		
 			if p1[1] > p2[1]:
 				return 1				
 			if p1[1] < p2[1]:
 				return -1				
-			if abs(round(p1[1] -p2[1],7)) < tol:			
+			if abs(round(p1[1] -p2[1],5)) < tol:			
 			
 				if p1[2] > p2[2]:
 					return 1				
 				if p1[2] < p2[2]:
 					return -1			
 						
-				if abs(round(p1[2] -p2[2],7)) < tol:
+				if abs(round(p1[2] -p2[2],5)) < tol:
 				
 					if p1[3] > p2[3]:
 						return 1		
@@ -137,7 +142,7 @@ class BolometryTable:
 			return self.__bc[pos]
 			
 		index = self.nearestIndex(value)
-		nearGridNode = self.__param[index]
+		nearGridNode = self.__param[index].copy()
 		
 		for i in range(nParams):
 			ww=round(value[i]*1e8,0)/1e8
@@ -145,11 +150,10 @@ class BolometryTable:
 			
 			if ww < xx:
 				prevIndex=self.previousNode(nearGridNode,i)
-				
+			
 				if prevIndex==-1:
 					raise ValueError()
-				nearGridNode[i] = self.__param[prevIndex][i]
-		
+	
 		nElems = 2**nParams
 		coeff=np.zeros((nElems,nParams), dtype = int)
 		v={}	
@@ -168,7 +172,7 @@ class BolometryTable:
 						
 						if not j in v:
 							nextNode=self.nextNode(nearGridNode,j)
-						
+				
 							if nextNode==-1:
 								nextNode=self.previousNode(nearGridNode,j)
 								
@@ -177,7 +181,9 @@ class BolometryTable:
 									
 							v[j]=nextNode
 						nodeCopy[j]=self.__param[v[j]][j]
+						
 					val=val//2	
+				
 				index=self.where(nodeCopy)
 					
 				if index==-1:
@@ -196,6 +202,8 @@ class BolometryTable:
 			
 		interpolated=0
 		x=np.zeros(nParams, dtype = float)
+
+		
 		
 		for i in range(nParams):
 				
@@ -219,9 +227,10 @@ class BolometryTable:
 	"""
 	def find_value(self,value,axis,k):
 		count=0
+
 		
 		for i in self.__paramkeys[axis]:
-		
+			
 			if abs(value-i) < 1e-5:
 				try :
 					return self.__paramkeys[axis][count+k]
@@ -256,11 +265,12 @@ class BolometryTable:
 				k=k+1
 				
 			paramValSearch=self.find_value(val[axis],axis,k)
-			
+
 			if paramValSearch is None:
 				return -1
 				
 			x[axis]=paramValSearch
+
 			index=self.where(x)
 			
 			if index !=-1 or not self.check(paramValSearch,axis,k):

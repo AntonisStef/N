@@ -19,7 +19,7 @@ class TestBcg(unittest.TestCase):
 		
 		for i in range(len(self.__testVal)):
 			self.assertEqual(expectedIndexes[i],self.__bc.previousNode(self.__testVal,i))
-			
+	
 	def test_next(self):
 		expectedIndexes = [746,-1,-1,-1]
 		
@@ -31,10 +31,10 @@ class TestBcg(unittest.TestCase):
 		expected = -2.1935
 		self.assertAlmostEqual(expected, result, places=4)
 		
-	#def test_interpolate2(self):
-	#	result = self.__bc.interpolate([4200,1,1,0.1])
-    #		expected = -0.5282
-	#	self.assertAlmostEqual(expected, result, places=4)
+	def test_interpolate2(self):
+		result = self.__bc.interpolate([4200,1,1,0.1])
+		expected = -0.5282
+		self.assertAlmostEqual(expected, result, places=4)
 		
 	def test_computeBc(self):
 		offset = 0.12
