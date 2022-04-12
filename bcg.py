@@ -48,6 +48,9 @@ class BolometryTable:
 	"""
 	   main method: uses 'value' as input : [teff, logg, metal, alphaFe] and an optional offset
 	   returns the bolometric correction at this point
+           the value is shifted by '0.2', which is an offset applied for DR3
+           This implies that the absolute magnitude if the sun in G band is equals 4.66 mag
+           see : creevey et al, 2022, sect 4,3
 	"""
 	def computeBc(self,value,offset=0):
 		
@@ -56,7 +59,7 @@ class BolometryTable:
 		except ValueError:
 			bc=self.__bc[self.nearestIndex(value)]
 		
-		return bc+offset
+		return bc+0.2+offset
 				
 	"""
 	   find the index location of pouint g (array) by dichotomy
