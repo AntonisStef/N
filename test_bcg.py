@@ -1,6 +1,6 @@
 import bcg
-
 import unittest
+import pandas as pd
 
 
 class TestBcg(unittest.TestCase):
@@ -33,15 +33,28 @@ class TestBcg(unittest.TestCase):
 		
 	def test_interpolate2(self):
 		result = self.__bc.interpolate([4200,1,1,0.1])
-		expected = -0.5282
+		expected = -0.514#-0.5282
 		self.assertAlmostEqual(expected, result, places=4)
 		
 	def test_computeBc(self):
 		offset = 0.12
 		test=[2550.,5.0 ,-0.5  ,0.2]
-		expected = -2.0735
+		expected = -1.8735
 		result = self.__bc.computeBc(test,offset)
 		self.assertAlmostEqual(expected, result, places=4)
+		
+	def test_nearestIndex(self):
+		test=[2871.180,   -0.095,   -4.595,    0.0277664]
+		expected=581
+		result=self.__bc.nearestIndex(test)
+		self.assertEqual(expected,result)
+		
+	def test_nearestIndex2(self):
+		test=[4200,1,1,0.1]
+		expected=3400
+		result=self.__bc.nearestIndex(test)
+		self.assertEqual(expected,result)
+		
 		
 		
 	if __name__ == '__main__':
