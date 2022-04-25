@@ -56,8 +56,8 @@ class BolometryTable:
 		try:
 			bc=self.interpolate(value)
 		except ValueError:
+			index = self.nearestIndex(value)
 			bc=self.__bc[self.nearestIndex(value)]
-			
 		return bc+0.2+offset
 				
 	"""
@@ -128,7 +128,7 @@ class BolometryTable:
 						return -1
 		return 0
 		
-    """
+	"""
        find the nearest (predecessor) point
     """
 	def nearestIndex(self,value):
@@ -176,7 +176,7 @@ class BolometryTable:
 			
 				for axis in range(len(params_lower)):
 					id_min=self.search(params_lower,axis,-1)
-			
+					
 					if id_min!=-1:
 						break
 			
@@ -202,17 +202,20 @@ class BolometryTable:
 				for k in range(len(value)):
 					x = self.__param[l][k]
 					y = value[k]
-					distance = distance+( (x-y)/delta[k])**2
+					distance = distance+( (x-y)*(x-y)/(delta[k]*delta[k]))
+					
 					
 				if distance < d_max:
 					d_max=distance
 					index=l
+			
 			return index
 		
 	"""
 	   performs a quick interpolation into the grid
 	"""
 	def interpolate(self,value):
+		
 		pos = self.where(value)
 		x=value.copy()
 		nParams=len(value)
@@ -221,18 +224,20 @@ class BolometryTable:
 			return self.__bc[pos]
 			
 		index = self.nearestIndex(value)
+		
 		nearGridNode = self.__param[index].copy()
 		
 		for i in range(nParams):
-			ww=round(value[i]*1e8,0)/1e8
-			xx=round(nearGridNode[i]*1e8,0)/1e8
+			ww=round(value[i]*1e7)/1e7
+			xx=round(nearGridNode[i]*1e7)/1e7
 			
 			if ww < xx:
 				prevIndex=self.previousNode(nearGridNode,i)
 			
 				if prevIndex==-1:
 					raise ValueError()
-	
+				nearGridNode[i]=self.__param[prevIndex][i]
+		
 		nElems = 2**nParams
 		coeff=np.zeros((nElems,nParams), dtype = int)
 		v={}	
@@ -281,8 +286,6 @@ class BolometryTable:
 			
 		interpolated=0
 		x=np.zeros(nParams, dtype = float)
-
-		
 		
 		for i in range(nParams):
 				
@@ -306,11 +309,12 @@ class BolometryTable:
 	"""
 	def find_value(self,value,axis,k):
 		count=0
-
 		
 		for i in self.__paramkeys[axis]:
 			
-			if abs(value-i) < 1e-5:
+			if abs(value-i) < 1e-7:
+				if count+k < 0:
+					return None
 				try :
 					return self.__paramkeys[axis][count+k]
 				except IndexError:
@@ -344,14 +348,14 @@ class BolometryTable:
 				k=k+1
 				
 			paramValSearch=self.find_value(val[axis],axis,k)
-
+			
 			if paramValSearch is None:
 				return -1
 				
 			x[axis]=paramValSearch
 
 			index=self.where(x)
-			
+		
 			if index !=-1 or not self.check(paramValSearch,axis,k):
 				return index
 

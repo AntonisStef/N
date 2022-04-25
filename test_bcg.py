@@ -14,6 +14,7 @@ class TestBcg(unittest.TestCase):
 		result = self.__bc.where(self.__testVal)
 		self.assertEqual(expected,result)
 		
+		
 	def test_previous(self):
 		expectedIndexes = [171,342,-1,357]
 		
@@ -33,7 +34,7 @@ class TestBcg(unittest.TestCase):
 		
 	def test_interpolate2(self):
 		result = self.__bc.interpolate([4200,1,1,0.1])
-		expected = -0.514#-0.5282
+		expected = -0.5282
 		self.assertAlmostEqual(expected, result, places=4)
 		
 	def test_computeBc(self):
@@ -49,12 +50,7 @@ class TestBcg(unittest.TestCase):
 		result=self.__bc.nearestIndex(test)
 		self.assertEqual(expected,result)
 		
-	def test_nearestIndex2(self):
-		test=[4200,1,1,0.1]
-		expected=3400
-		result=self.__bc.nearestIndex(test)
-		self.assertEqual(expected,result)
-		
+	
 		
 		
 	if __name__ == '__main__':
