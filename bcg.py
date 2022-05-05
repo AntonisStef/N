@@ -33,7 +33,7 @@ class BolometryTable:
 	   constructor. Take as argument the ascii table file.
 	"""
 	def __init__(self,file):
-	    table=pd.read_table(file, delim_whitespace=True, names=["teff", "logg","metal","alpha","bc"],dtype={'teff':'float32','logg':'float32','metal':'float32','alpha':'float32','bc':'float32'})
+	    table=pd.read_table(file, delim_whitespace=True, names=["teff", "logg","metal","alpha","bc"],dtype={'teff':np.float64,'logg':np.float64,'metal':np.float64,'alpha':np.float64,'bc':np.float64})
 	    self.__bolometry=table.sort_values(by=['teff', 'logg','metal','alpha'])
 	    self.__param=self.__bolometry.values[:,0:4]
 	    self.__bc=self.__bolometry.values[:,4]
@@ -52,7 +52,7 @@ class BolometryTable:
            see : creevey et al, 2022, sect 4,3
 	"""
 	def computeBc(self,value,offset=0):
-		
+
 		try:
 			bc=self.interpolate(value)
 		except ValueError:
@@ -75,10 +75,8 @@ class BolometryTable:
 			if self.equals(elem,g):
 				result=milieu
 			elif self.compareTo(elem,g)==-1:
-				var='sup'
 				bas = milieu + 1
 			else:
-				var='inf'
 				haut = milieu -1
 
 			if self.equals(g,elem) or (bas > haut):
@@ -132,7 +130,6 @@ class BolometryTable:
        find the nearest (predecessor) point
     """
 	def nearestIndex(self,value):
-		#d, i = self.__kdtree.query(value)
 		delta=[100,1,1,1]
 		nearest=np.zeros(len(value))
 		params_lower=np.zeros(len(value))
@@ -202,8 +199,8 @@ class BolometryTable:
 				for k in range(len(value)):
 					x = self.__param[l][k]
 					y = value[k]
-					distance = distance+( (x-y)*(x-y)/(delta[k]*delta[k]))
-					
+					u = round(x-y,14)	
+					distance = distance+(u*u)/(delta[k]*delta[k])
 					
 				if distance < d_max:
 					d_max=distance
