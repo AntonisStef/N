@@ -1,6 +1,6 @@
-import bcg
+import gdr3bcg.bcg as bcg
 # use main table
-bc=bcg.BolometryTable('data/bc_dr3_feh_all.txt')
+bc=bcg.BolometryTable()
 point=[5772.,4.43,0,0]
 offset = 0.02
 # without offset
