@@ -7,17 +7,17 @@ This function takes as input the effective temperature Teff, surface gravity log
 * git clone https://gitlab.oca.eu/ordenovic/gaiadr3_bcg
 
 ## you will find :
-* the directory (package) gdr3bcg with the python class : bcg.py
+* the directory (package) gdr3bgc with the python class : bcg.py
 * the test directory with the unit test class : test_bcg.py
 * a demo python file : demo.py
-* a setup.py installation file
+* a setup file for package installation
 
 ## installation
-* use python 3.6(+) and venv library
-* run the package installation wy running : python3 setup.py install
+* use python 3.6(+) and setuptools library
+* run python3 setup.py install for package installation
 
 ## The directory data contains the main bc table used for the DR3 : 
-* bc_dr3_feh_all.txt
+* bc_dr3_feh_all.dat
 
 ## You can run the unit test file by the command:
 * python3 setup.py test
@@ -27,7 +27,7 @@ This function takes as input the effective temperature Teff, surface gravity log
 
 ## To use it directly in your python code:
 * import the python file bcg.py by the command : import gdr3bcg as bcg
-* create the object by calling the constructor: bcg.BolometryTable('data/bc_dr3_feh_all.txt')
+* create the object by calling the constructor: bcg.BolometryTable()
 * call the method computeBc(point <,offset>)
     * point is a list of 4 elements : [teff, logg, metallicity, alpha/Fe]
     * offset is an optional floating value (0 by default), see below for details.
@@ -42,7 +42,7 @@ When using this function we ask you to cite Creevey, O. L., Sordo, R., Pailler F
 This product makes use of public auxiliary models provided by ESA/Gaia/DPAC/CU8 and prepared by Christophe Ordenovic, Orlagh Creevey, Andreas Korn, Bengt Edvardsson, Oleg Kochukhov, and Frédéric Thévenin.
 
 ## Details of the models
-The file bc_dr3_feh_all.txt is a compilation of two sets of tables: 
+The file bc_dr3_feh_all.dat is a compilation of two sets of tables: 
 * the first is based on the MARCS models (Gustaffson et al. 2008) for the 2500 - 8000 K Teff range and was provided by Bengt Edvardsson for Gaia/DPAC/CU8/FLAME (Creevey et al. 2022). 
 * The second is based on A star models (Shulyak et al. 2004) for the 6000 - 20000 K Teff range and was provided by Oleg Kochukhov for Gaia/DPAC/CU8/FLAME. 
 For production of data in Gaia Data Release 3 the two tables are matched at 8,000 K.  Additionally, the tables were provided with an arbitrary offset such that the bolometric correction of the Sun in G band is -0.12 mag.  Therefore, in the function, a constant value of 0.20 mag is added to all values for the production of luminosities in Gaia Data Release 3, i.e. BC_G,Sun = +0.08 mag and M_G,Sun = 4.66 mag.
