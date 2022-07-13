@@ -7,28 +7,26 @@ This function takes as input the effective temperature Teff, surface gravity log
 * git clone https://gitlab.oca.eu/ordenovic/gaiadr3_bcg
 
 ## you will find :
-* the python class : bcg.py
-* the unit test class : test_bcg.py
+* the directory (package) gdr3bcg with the python class : bcg.py
+* the test directory with the unit test class : test_bcg.py
 * a demo python file : demo.py
-* a 'requirements.txt' file
+* a setup.py installation file
 
 ## installation
-* use python 3.8(+) and venv library
-* create your virtual environment : python3 -m venv bcg
-* activate it : . bcg/bin/activate
-* install the local environment : pip3 install -r requirements.txt
+* use python 3.6(+) and venv library
+* run the package installation wy running : python3 setup.py install
 
 ## The directory data contains the main bc table used for the DR3 : 
 * bc_dr3_feh_all.txt
 
 ## You can run the unit test file by the command:
-* python3 -m unittest test_bcg.py
+* python3 setup.py test
 
 ## The demo can be run by:
 * python3 demo.py
 
 ## To use it directly in your python code:
-* import the python file bcg.py by the command : import bcg
+* import the python file bcg.py by the command : import gdr3bcg as bcg
 * create the object by calling the constructor: bcg.BolometryTable('data/bc_dr3_feh_all.txt')
 * call the method computeBc(point <,offset>)
     * point is a list of 4 elements : [teff, logg, metallicity, alpha/Fe]
