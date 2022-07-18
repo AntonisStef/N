@@ -26,7 +26,7 @@ This function takes as input the effective temperature Teff, surface gravity log
 * python3 demo.py
 
 ## To use it directly in your python code:
-* import the python file bcg.py by the command : import gdr3bcg as bcg
+* import the python file bcg.py by the command : import gdr3bcg.bcg as bcg
 * create the object by calling the constructor: bcg.BolometryTable()
 * call the method computeBc(point <,offset>)
     * point is a list of 4 elements : [teff, logg, metallicity, alpha/Fe]
