@@ -369,7 +369,7 @@ class BolometryTable:
 		return self.search(val,axis,1)
 		
 if __name__ == "__main__":
-	bcg = BolometryTable('data/bc_dr3_feh_all.txt')
+	bcg = BolometryTable()
 	bcg.main()
 			
 			
